@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: Inspektionsverwaltung API
+  description: API für die Verwaltung von Inspektionen von Kunstbauten.
+  version: "1.0.0"
+servers:
+  - url: 'http://localhost:8080'
+    description: local server
+
+tags:
+  - name: Inspektionen
+    description: API-Endpunkte für Inspektionen
+
+paths:
+  /inspektionen:
+    get:
+      tags:
+        - Inspektionen
+      summary: Liste aller Inspektionen abrufen
+      operationId: getInspektionen
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Liste der Inspektionen
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inspektion'
+        '400':
+          description: Ungültige Anfrage
+        '500':
+          description: Serverfehler
+    post:
+      tags:
+        - Inspektionen
+      summary: Neue Inspektion anlegen
+      operationId: addInspektion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inspektion'
+      responses:
+        '201':
+          description: Inspektion erfolgreich erstellt
+        '400':
+          description: Ungültige Daten in der Anfrage
+        '500':
+          description: Serverfehler
+
+  /inspektionen/{id}:
+    get:
+      tags:
+        - Inspektionen
+      summary: Details einer Inspektion abrufen
+      operationId: getInspektionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Inspektion
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Inspektion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inspektion'
+        '404':
+          description: Inspektion nicht gefunden
+        '500':
+          description: Serverfehler
+    put:
+      tags:
+        - Inspektionen
+      summary: Inspektion aktualisieren
+      operationId: updateInspektion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Inspektion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Inspektion'
+      responses:
+        '200':
+          description: Inspektion erfolgreich aktualisiert
+        '400':
+          description: Ungültige Daten in der Anfrage
+        '404':
+          description: Inspektion nicht gefunden
+        '500':
+          description: Serverfehler
+    delete:
+      tags:
+        - Inspektionen
+      summary: Inspektion löschen
+      operationId: deleteInspektion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Inspektion
+      responses:
+        '200':
+          description: Inspektion erfolgreich gelöscht
+        '404':
+          description: Inspektion nicht gefunden
+        '500':
+          description: Serverfehler
+
+components:
+  schemas:
+    Inspektion:
+      type: object
+      required:
+        - objektId
+        - status
+        - datum
+        - gesamtbewertung
+      properties:
+        objektId:
+          type: string
+          description: Eindeutige ID des Objekts
+        status:
+          type: string
+          description: Aktueller Status der Inspektion
+        datum:
+          type: string
+          format: date
+          description: Datum der Inspektion
+        gesamtbewertung:
+          type: integer
+          description: Gesamtbewertung der Inspektion
