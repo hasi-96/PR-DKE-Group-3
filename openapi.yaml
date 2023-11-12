@@ -167,7 +167,7 @@ components:
             - STREUGUTSILO
             - TUNNEL_GESCHLOSSENE_BAUWEISE
             - WANNENBAUWERK
-            - WEGWEISERBRUECK
+            - WEGWEISERBRUECKE
 
         Status:
           type: string
@@ -215,4 +215,5 @@ components:
             - ENTWAESSERUNG_KANAL
             - RANDBALKEN_ESTRICH
             - RANDBALKEN_PFLASTER
-
+            - AUSRUESTUNG_SPRITZSCHUTZ
+            - AUSRUESTUNG_SCHUTZEINRICHTUNG
