@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  title: Objektverwaltung API
+  description: API zur Verwaltung von Kunstbauten
+  version: "1.0.0"
+
+servers:
+  - url: 'http://localhost:8080'
+    description: Lokalserver
+
+paths:
+  /bauobjekt:
+    get:
+      summary: Liste aller Bauobjekte
+      responses:
+        '200':
+          description: Erfolgreich alle Bauobjekte erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BauObjekt'
+    post:
+      summary: Neues Bauobjekt erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BauObjekt'
+      responses:
+        '201':
+          description: Bauobjekt erfolgreich erstellt
+        '400':
+          description: Ungültige Anfragedaten
+    put:
+      summary: Bestehendes Objekt aktualisieren
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BauObjekt'
+      responses:
+        '200':
+          description: Bauobjekt erfolgreich aktualisiert
+        '400':
+          description: Ungültige Anfragedaten
+        '404':
+          description: Bauobjekt wurde nicht gefunden
+
+  /bauobjekt/{id}:
+    get:
+      summary: Ein einzelnes Bauobjekt abrufen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID des Bauobjekts
+      responses:
+        '200':
+          description: Erfolgreich das Bauobjekt erhalten
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BauObjekt'
+        '404':
+          description: Bauobjekt wurde nicht gefunden
+    delete:
+      summary: Ein Bauobjekt löschen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID des Bauobjekts
+      responses:
+        '200':
+          description: Bauobjekt erfolgreich gelöscht
+        '404':
+          description: Bauobjekt wurde nicht gefunden
+
+  /BTI_Elemente/{bauobjektID}:
+    get:
+      summary: Liste aller Elemente eines Objektes
+      parameters:
+        - in: path
+          name: bauobjektID
+          schema:
+            type: integer
+          required: true
+          description: ID des Bauobjektes
+      responses:
+        '200':
+          description: Erfolgreich alle Elemente erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BTI_Elemente'
+  /BTI_Elemente:
+    post:
+      summary: Neues Element erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BTI_Elemente'
+      responses:
+        '201':
+          description: Element erfolgreich erstellt
+        '400':
+          description: Ungültige Anfragedaten
+
+  /BTI_Elemente/{bauobjektID}/{BTI_ElementeTyp}:
+    delete:
+      summary: Ein Element in einem Objekt löschen
+      parameters:
+        - in: path
+          name: bauobjektID
+          schema:
+            type: integer
+          required: true
+          description: ID des Objektes
+        - in: path
+          name: BTI_ElementeTyp
+          schema:
+            type: string
+          required: true
+          description: Typ des BTI_Elementes
+      responses:
+        '200':
+          description: BTI_Element erfolgreich gelöscht
+        '404':
+          description: BTI_Elemente wurde nicht gefunden
+
+components:
+  schemas:
+    BauObjekt:
+      type: object
+      required:
+        - ID
+        - Name
+        - BauObjKlasse
+        - Status
+        - Baujahr
+        - Standort
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+        BauObjKlasse:
+          type: string
+          enum:
+            - BRUECKENBAUWERK
+            - GALERIE_TUNNEL_OFFENE_BAUWEISE
+            - LAERMSCHUTZWAND
+            - MAUER_STUETZKONSTRUKTION
+            - SCHUTZBAUTEN
+            - STREUGUTSILO
+            - TUNNEL_GESCHLOSSENE_BAUWEISE
+            - WANNENBAUWERK
+            - WEGWEISERBRUECKE
+
+        Status:
+          type: string
+          enum:
+            - PLANUNG
+            - BAU
+            - ERHALTEN
+        Baujahr:
+          type: integer
+        Standort:
+          type: string
+          enum:
+            - Burgenland
+            - Kärnten
+            - Steiermark
+            - Niederösterreich
+            - Oberösterreich
+            - Salzburg
+            - Tirol
+            - Vorarlberg
+            - Wien
+
+    BTI_Elemente:
+      type: object
+      required:
+        - bauobjektID
+        - BTI_ElementeTyp
+      properties:
+        ObjektID:
+          type: integer
+        Typ:
+          type: string
+          enum:
+            - UNTERBAU_PFEILER
+            - UNTERBAU_WIDERLAGER
+            - UEBERBAU_HOLZ
+            - UEBERBAU_STAHBETON
+            - LAGER_BETONGELENK
+            - LAGER_BETONSTELZLAGER
+            - FAHRBAHNAUFBAU_BELAG_BETON
+            - FAHRBAHNAUFBAU_BELAG_DRAINASPHALT
+            - ABDICHTUNG_BITUMENBAHNEN
+            - ABDICHTUNG_FLUESSIGABDICHTUNG
+            - ENTWAESSERUNG_GEWAESSERSCHUTZANLAGE
+            - ENTWAESSERUNG_KANAL
+            - RANDBALKEN_ESTRICH
+            - RANDBALKEN_PFLASTER
+            - AUSRUESTUNG_SPRITZSCHUTZ
+            - AUSRUESTUNG_SCHUTZEINRICHTUNG
