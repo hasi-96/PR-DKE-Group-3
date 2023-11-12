@@ -6,30 +6,32 @@ info:
 servers:
   - url: http://localhost:8080
     description: Lokalerserver
-
-tags:
-  - name: Investition
-    description: API-Endpunkte für Investition
-
+ 
 paths:
   /massnahmen:
     get:
       tags:
-        - Maßnahme
-      summary: Liste aller Maßnahmen
+        - Maßnahmen 
+      summary: Liste aller Maßnahmen abrufen
+      operationId: getMaßnahmen
       responses:
         '200':
-          description: Erfolgreich alle Maßnahmen erhalten
+          description: Liste von Maßnahmen erfolgreich abgerufen
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Massnahmen'
+        '400':
+          description: Ungültige Anfrage
+        '500':
+          description: Serverfehler
     post:
       tags:
-        - Maßnahme
+        - Maßnahmen
       summary: Neue Maßnahme erstellen
+      operationId: addMaßnahmen
       requestBody:
         required: true
         content:
@@ -38,13 +40,16 @@ paths:
               $ref: '#/components/schemas/Massnahmen'
       responses:
         '201':
-          description: Maßnahme erfolgreich erstellt
+          description: Maßnahme wurde erfolgreich erstellt
         '400':
           description: Ungültige Anfragedaten
+        '500':
+          description: Serverfehler
     put:
       tags:
-        - Maßnahme
-      summary: Bestehende Maßnahme aktualisieren
+        - Maßnahmen
+      summary: Bestehende Maßnahme  aktualisieren
+      operationId: updateMaßnahmen
       requestBody:
         required: true
         content:
@@ -53,36 +58,40 @@ paths:
               $ref: '#/components/schemas/Massnahmen'
       responses:
         '200':
-          description: Maßnahme erfolgreich aktualisiert
+          description: Maßnahme wurde erfolgreich aktualisiert
         '400':
           description: Ungültige Anfragedaten
         '404':
           description: Maßnahme wurde nicht gefunden
+        '500':
+          description: Serverfehler
   /massnahmen/{maßnahmeID}:
     get:
       tags:
-        - Maßnahme
-      summary: Ein einzelne Maßnahme abrufen
+        - Maßnahmen
+      summary: Abrufen einer Maßnahme
       parameters:
         - in: path
           name: maßnahmeID
           schema:
             type: integer
           required: true
-          description: ID der Manahme
+          description: ID der Maßnahme
       responses:
         '200':
-          description: Erfolgreich die Maßnahme erhalten
+          description: Die Maßnahme wurde erfolgreich übermittelt
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Massnahmen'
         '404':
           description: Maßnahme wurde nicht gefunden
+        '500':
+          description: Serverfehler
     delete:
       tags:
-        - Maßnahme
-      summary: Ein Maßnahme löschen
+        - Maßnahmen
+      summary:  Maßnahme löschen
       parameters:
         - in: path
           name: maßnahmeID
@@ -95,6 +104,9 @@ paths:
           description: Maßnahme erfolgreich gelöscht
         '404':
           description: Maßnahme wurde nicht gefunden
+        '500':
+          description: Serverfehler
+        
   /investition:
     get:
       tags:
@@ -124,6 +136,8 @@ paths:
           description: Investition erfolgreich erstellt
         '400':
           description: Ungültige Anfragedaten
+        '500':
+          description: Serverfehler
     put:
       tags:
         - Investition
@@ -141,11 +155,13 @@ paths:
           description: Ungültige Anfragedaten
         '404':
           description: Investition wurde nicht gefunden
+        '500':
+          description: Serverfehler
   /investition/{investionsID}:
     get:
       tags:
         - Investition
-      summary: Ein einzelne Investition abrufen
+      summary: Einzelne Investition abrufen
       parameters:
         - in: path
           name: investionsID
@@ -162,6 +178,8 @@ paths:
                 $ref: '#/components/schemas/Massnahmen'
         '404':
           description: Investition wurde nicht gefunden
+        '500':
+          description: Serverfehler
     delete:
       tags:
         - Investition
@@ -178,6 +196,8 @@ paths:
           description: Investition erfolgreich gelöscht
         '404':
           description: Investition wurde nicht gefunden
+        '500':
+          description: Serverfehler
 components:
   schemas:
     Massnahmen:
