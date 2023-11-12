@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  title: Investitionsverwaltung API
+  description: API zur Verwaltung von Investitionen
+  version: "1.0.0"
+
+servers:
+  - url: 'http://localhost:8080'
+    description: Lokalerserver
+
+paths:
+  /bauobjekt:
+    get:
+      summary: Liste aller Maßnahmen
+      responses:
+        '200':
+          description: Erfolgreich alle Maßnahmen erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Massnahmen'
+    post:
+      summary: Neue Maßnahme erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Massnahmen'
+      responses:
+        '201':
+          description: Maßnahme erfolgreich erstellt
+        '400':
+          description: Ungültige Anfragedaten
+    put:
+      summary: Bestehende Maßnahme aktualisieren
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Massnahmen'
+      responses:
+        '200':
+          description: Maßnahme erfolgreich aktualisiert
+        '400':
+          description: Ungültige Anfragedaten
+        '404':
+          description: Maßnahme wurde nicht gefunden
+
+  /bauobjekt/{maßnahmeID}:
+    get:
+      summary: Ein einzelne Maßnahme abrufen
+      parameters:
+        - in: path
+          name: maßnahmeID
+          schema:
+            type: integer
+          required: true
+          description: ID der Manahme
+      responses:
+        '200':
+          description: Erfolgreich die Maßnahme erhalten
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Massnahmen'
+        '404':
+          description: Maßnahme wurde nicht gefunden
+    delete:
+      summary: Ein Maßnahme löschen
+      parameters:
+        - in: path
+          name: maßnahmeID
+          schema:
+            type: integer
+          required: true
+          description: ID der Maßnahme
+      responses:
+        '200':
+          description: Maßnahme erfolgreich gelöscht
+        '404':
+          description: Maßnahme wurde nicht gefunden
+          
+  /investition:
+    get:
+      summary: Liste aller Investitionen
+      responses:
+        '200':
+          description: Erfolgreich alle Investitionen erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Investition'
+    post:
+      summary: Neue Investitionen erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Investition'
+      responses:
+        '201':
+          description: Investition erfolgreich erstellt
+        '400':
+          description: Ungültige Anfragedaten
+    put:
+      summary: Bestehende Investition aktualisieren
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Investition'
+      responses:
+        '200':
+          description: Investition erfolgreich aktualisiert
+        '400':
+          description: Ungültige Anfragedaten
+        '404':
+          description: Investition wurde nicht gefunden
+
+  /investition/{investionsID}:
+    get:
+      summary: Ein einzelne Investition abrufen
+      parameters:
+        - in: path
+          name: investionsID
+          schema:
+            type: integer
+          required: true
+          description: ID der Investition
+      responses:
+        '200':
+          description: Erfolgreich die Investition erhalten
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Massnahmen'
+        '404':
+          description: Investition wurde nicht gefunden
+    delete:
+      summary: Eine Investition löschen
+      parameters:
+        - in: path
+          name: investionsID
+          schema:
+            type: integer
+          required: true
+          description: ID der Investition
+      responses:
+        '200':
+          description: Investition erfolgreich gelöscht
+        '404':
+          description: Investition wurde nicht gefunden
+            
+            
+components:
+   schemas:
+    Massnahmen:
+      type: object
+      required:
+        - maßnahmeID
+        - dringlichkeit
+        - inspektionselement
+        - anmerkung
+        - status
+        - objektID
+        - inspektionID
+        - bauteil
+        
+       
+      properties:
+        maßnahmeID:
+          type: integer
+        dringlichkeit:
+          type: string
+          enum:
+          - KURZFRISTIG
+          - MITTELFRISTIG
+          - LANGFRISTIG
+        inspektionselement:
+          type: string
+     
+        anmerkung:
+          type: string
+        status:
+          type: string
+          enum:
+          - DURCHGEFÜHRT
+          - OFFEN
+          - NICHT_DURCHGEFÜHRT
+       
+        inspektionID:
+          type: integer
+        bauteil:
+          type: string
+        
+    Investition:
+      type: object
+      required:
+        - investionsID
+        - maßnahmeID
+        - jahr
+        - kosten
+        - anmerkung
+      properties:
+        investionsID:
+          type: integer
+        maßnahmeID:
+          type: integer
+          
+        jahr:
+          type: integer
+        kosten:
+          type: integer
+        anmerkung:
+          type: string
+        
+       
