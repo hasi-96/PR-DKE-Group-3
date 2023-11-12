@@ -15,7 +15,7 @@ paths:
   /massnahmen:
     get:
       tags:
-        - Investition
+        - Maßnahme
       summary: Liste aller Maßnahmen
       responses:
         '200':
@@ -28,7 +28,7 @@ paths:
                   $ref: '#/components/schemas/Massnahmen'
     post:
       tags:
-        - Investition
+        - Maßnahme
       summary: Neue Maßnahme erstellen
       requestBody:
         required: true
@@ -43,7 +43,7 @@ paths:
           description: Ungültige Anfragedaten
     put:
       tags:
-        - Investition
+        - Maßnahme
       summary: Bestehende Maßnahme aktualisieren
       requestBody:
         required: true
@@ -61,7 +61,7 @@ paths:
   /massnahmen/{maßnahmeID}:
     get:
       tags:
-        - Investition
+        - Maßnahme
       summary: Ein einzelne Maßnahme abrufen
       parameters:
         - in: path
@@ -81,7 +81,7 @@ paths:
           description: Maßnahme wurde nicht gefunden
     delete:
       tags:
-        - Investition
+        - Maßnahme
       summary: Ein Maßnahme löschen
       parameters:
         - in: path
