@@ -120,6 +120,122 @@ paths:
           description: Inspektion nicht gefunden
         '500':
           description: Serverfehler
+          
+          
+  /bauteilbewertung:
+    get:
+      tags:
+        - Bauteilbewertung
+      summary: Liste aller Bauteilbewertungen abrufen
+      operationId: getBauteilbewertung
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Bauteilbewertung
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bauteilbewertung'
+        '404':
+          description: Bauteilbewertung nicht gefunden
+        '500':
+          description: Serverfehler
+    post:
+      tags:
+        - Bauteilbewertung
+      summary: Neue Bauteilbewertung anlegen
+      operationId: addBauteilbewertung
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bauteilbewertung'
+      responses:
+        '201':
+          description: Bauteilbewertung erfolgreich erstellt
+        '400':
+          description: Ungültige Daten in der Anfrage
+        '500':
+          description: Serverfehler
+  
+  /bauteilbewertung/{id}:
+    get:
+      tags:
+        - Bauteilbewertung
+      summary: Details einer Inspektion abrufen
+      operationId: getBauteilbewertungById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Bauteilbewertung
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Bauteilbewertung
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bauteilbewertung'
+        '404':
+          description: Bauteilbewertung nicht gefunden
+        '500':
+          description: Serverfehler
+    put:
+      tags:
+        - Bauteilbewertung
+      summary: Bauteilbewertung aktualisieren
+      operationId: updateBauteilbewertung
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Bauteilbewertung
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bauteilbewertung'
+      responses:
+        '200':
+          description: Bauteilbewertung erfolgreich aktualisiert
+        '400':
+          description: Ungültige Daten in der Anfrage
+        '404':
+          description: Bauteilbewertung nicht gefunden
+        '500':
+          description: Serverfehler
+    delete:
+      tags:
+        - Bauteilbewertung
+      summary: Bauteilbewertung löschen
+      operationId: deleteBauteilbewertung
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Die ID der Bauteilbewertung
+      responses:
+        '200':
+          description: Bauteilbewertung erfolgreich gelöscht
+        '404':
+          description: Bauteilbewertung nicht gefunden
+        '500':
+          description: Serverfehler
+          
+          
+          
+          
+          
+          
+          
+          
 
 components:
   schemas:
@@ -127,20 +243,98 @@ components:
       type: object
       required:
         - objektId
+        - inspektionID
         - status
         - datum
         - gesamtbewertung
+        - sofortmaßnahmen
+        - funktionsfähigkeit_und_Belastbarkeit_im_bisheringen_Umfang
+        - maßnahmen_aus_Gründen_der_Tragfähigkeit_und_Verkehrssicherheit
+        - maßnahmen_aus_Gründen_der_Dauerhaftigkeit_abgeschlossen
       properties:
         objektId:
-          type: string
+          type: integer
           description: Eindeutige ID des Objekts
+        inspektionID:
+          type: integer
+          description: Eindeutige ID der Inspektion
         status:
           type: string
+          enum:
+            - IN_BEARBEITUNG
+            - ABGESCHLOSSEN
           description: Aktueller Status der Inspektion
         datum:
           type: string
           format: date
           description: Datum der Inspektion
         gesamtbewertung:
+          $ref: '#/components/schemas/Noten'
+        sofortmaßnahmen:
+          type: string
+          description: Dient als Feld für die Sofortmaßnahmen
+        funktionsfähigkeit_und_Belastbarkeit_im_bisheringen_Umfang:
+          type: string
+          description: Dient als Feld für die funktionsfähigkeit_und_Belastbarkeit_im_bisheringen_Umfang
+        maßnahmen_aus_Gründen_der_Tragfähigkeit_und_Verkehrssicherheit:
+          type: string
+          description: Dient als Feld für die maßnahmen_aus_Gründen_der_Tragfähigkeit_und_Verkehrssicherheit
+        maßnahmen_aus_Gründen_der_Dauerhaftigkeit_abgeschlossen:
+          type: string
+          description: Dient als Feld für die maßnahmen_aus_Gründen_der_Dauerhaftigkeit_abgeschlossen
+          
+    Bauteilbewertung:
+      type: object
+      required:
+        - bauteilbewertung_ID
+        - bauteil_Inspektionselement
+        - mangel
+        - ort
+        - anmerkung
+        - bewertung
+      properties:
+        bauteilbewertung_ID:
           type: integer
-          description: Gesamtbewertung der Inspektion
+          description: Eindeutige ID der Bauteilbewertung
+        bauteil_Inspektionselement:
+          type: string
+          enum:
+            - UNTERBAU_PFEILER
+            - UNTERBAU_WIDERLAGER
+            - UEBERBAU_HOLZ
+            - UEBERBAU_STAHLBETON
+            - LAGER_BETONGELENK
+            - LAGER_BETONSTELZLAGER
+            - FAHRBAHNAUFBAU_BELAG_BETON
+            - FAHRBAHNAUFBAU_BELAG_DREINASPHALT
+            - ABDICHTUNG_BITUMENBAHN
+            - ABDICHTUNG_FLUESSIGDICHTUNG
+            - ENTWAESSERUNG_GEWASESSERSCHUTZANLAGE
+            - ENTWAESSERUNG_KANAL
+            - RANDBALKEN_ESTRICH
+            - RANDBALKEN_PFLASTER
+            - AUSRUESTUNG_SPRITZSCHUTZ
+            - AUSRUESTUNG_SCHUTZEINRICHTUNG
+          description: Eindeutige Auswahl des Bauteil + Inspektionselements
+        mangel:
+          type: string
+          description: Dient als Feld für die Angabe des Mangels
+        ort:
+          type: string
+          description: Ort des Fundes
+        anmerkung:
+          type: string
+          description: Feld für potenzielle Anmerkungen
+        bewertung:
+          $ref: '#/components/schemas/Noten'
+          
+          
+    Noten:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      description: Bewertungsskala
