@@ -6,9 +6,16 @@ info:
 servers:
   - url: http://localhost:8080
     description: Lokalerserver
+
+tags:
+  - name: Investition
+    description: API-Endpunkte für Investition
+
 paths:
   /massnahmen:
     get:
+      tags:
+        - Investition
       summary: Liste aller Maßnahmen
       responses:
         '200':
@@ -20,6 +27,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Massnahmen'
     post:
+      tags:
+        - Investition
       summary: Neue Maßnahme erstellen
       requestBody:
         required: true
@@ -33,6 +42,8 @@ paths:
         '400':
           description: Ungültige Anfragedaten
     put:
+      tags:
+        - Investition
       summary: Bestehende Maßnahme aktualisieren
       requestBody:
         required: true
@@ -49,6 +60,8 @@ paths:
           description: Maßnahme wurde nicht gefunden
   /massnahmen/{maßnahmeID}:
     get:
+      tags:
+        - Investition
       summary: Ein einzelne Maßnahme abrufen
       parameters:
         - in: path
@@ -67,6 +80,8 @@ paths:
         '404':
           description: Maßnahme wurde nicht gefunden
     delete:
+      tags:
+        - Investition
       summary: Ein Maßnahme löschen
       parameters:
         - in: path
@@ -82,6 +97,8 @@ paths:
           description: Maßnahme wurde nicht gefunden
   /investition:
     get:
+      tags:
+        - Investition
       summary: Liste aller Investitionen
       responses:
         '200':
@@ -93,6 +110,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Investition'
     post:
+      tags:
+        - Investition
       summary: Neue Investitionen erstellen
       requestBody:
         required: true
@@ -106,6 +125,8 @@ paths:
         '400':
           description: Ungültige Anfragedaten
     put:
+      tags:
+        - Investition
       summary: Bestehende Investition aktualisieren
       requestBody:
         required: true
@@ -122,6 +143,8 @@ paths:
           description: Investition wurde nicht gefunden
   /investition/{investionsID}:
     get:
+      tags:
+        - Investition
       summary: Ein einzelne Investition abrufen
       parameters:
         - in: path
@@ -140,6 +163,8 @@ paths:
         '404':
           description: Investition wurde nicht gefunden
     delete:
+      tags:
+        - Investition
       summary: Eine Investition löschen
       parameters:
         - in: path
