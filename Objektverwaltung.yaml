@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: Objektverwaltung API
+  description: API zur Verwaltung von Kunstbauten
+  version: "1.0.0"
+
+servers:
+  - url: 'http://localhost:8080'
+    description: Lokalserver
+
+paths:
+  /Bauobjekt:
+    get:
+      summary: Liste aller Objekte
+      responses:
+        '200':
+          description: Erfolgreich alle Objekte erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BauObjekt'
+    post:
+      summary: Neues Objekt erstellen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BauObjekt'
+      responses:
+        '201':
+          description: Objekt erfolgreich erstellt
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Ungültige Anfragedaten
+    put:
+      summary: Bestehendes Objekt aktualisieren
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BauObjekt'
+      responses:
+        '200':
+          description: Objekt erfolgreich aktualisiert
+        '400':
+          description: Ungültige Anfragedaten
+        '404':
+          description: Objekt wurde nicht gefunden
+
+  /Bauobjekt/{id}:
+    get:
+      summary: Ein einzelnes Objekt abrufen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID des Objekts
+      responses:
+        '200':
+          description: Erfolgreich das Objekt erhalten
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BauObjekt'
+        '404':
+          description: Objekt wurde nicht gefunden
+    delete:
+      summary: Ein Objekt löschen
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID des Objekts
+      responses:
+        '200':
+          description: Objekt erfolgreich gelöscht
+        '404':
+          description: Objekt wurde nicht gefunden
+
+  /BauwerkKomponente/{bauobjektID}:
+    get:
+      summary: Liste aller BauwerkKomponenten eines Objektes
+      parameters:
+        - in: path
+          name: bauobjektID
+          schema:
+            type: integer
+          required: true
+          description: ID des Objektes
+      responses:
+        '200':
+          description: Erfolgreich alle Bauwerkkomponente erhalten
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    post:
+      summary: Neue BauwerkKomponente zu einem Bauobjekt zuweisen
+      parameters:
+        - in: path
+          name: bauobjektID
+          schema:
+            type: integer
+          required: true
+          description: ID des Objektes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+            example:
+              name: BauwerkKomponentenTyp
+              type: string
+              enum:
+              - UNTERBAU_PFEILER
+              - UNTERBAU_WIDERLAGER
+              - UEBERBAU_HOLZ
+              - UEBERBAU_STAHBETON
+              - LAGER_BETONGELENK
+              - LAGER_BETONSTELZLAGER
+              - FAHRBAHNAUFBAU_BELAG_BETON
+              - FAHRBAHNAUFBAU_BELAG_DRAINASPHALT
+              - ABDICHTUNG_BITUMENBAHNEN
+              - ABDICHTUNG_FLUESSIGABDICHTUNG
+              - ENTWAESSERUNG_GEWAESSERSCHUTZANLAGE
+              - ENTWAESSERUNG_KANAL
+              - RANDBALKEN_ESTRICH
+              - RANDBALKEN_PFLASTER
+      responses:
+        '201':
+          description: Element erfolgreich erstellt
+        '400':
+          description: Ungültige Anfragedaten
+
+  /BauwerkKomponente/{bauobjektID}/{BauwerkKomponentenTyp}:
+    delete:
+      summary: BauwerkKomponente aus einem Bauobjekt entfernen
+      parameters:
+        - in: path
+          name: bauobjektID
+          schema:
+            type: integer
+          required: true
+          description: ID des Objektes
+        - in: path
+          name: BauwerkKomponentenTyp
+          schema:
+            type: string
+          required: true
+          description: Typ des BauwerkKomponenten
+      responses:
+        '200':
+          description: BauwerkKomponent erfolgreich gelöscht
+        '404':
+          description: BauwerkKomponent wurde nicht gefunden
+
+components:
+  schemas:
+    BauObjekt:
+      type: object
+      required:
+        - ID
+        - Name
+        - BauwerkTyp
+        - Status
+        - Baujahr
+        - Standort
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+        BauwerkTyp:
+          type: string
+          enum:
+            - BRUECKENBAUWERK
+            - GALERIE_TUNNEL_OFFENE_BAUWEISE
+            - LAERMSCHUTZWAND
+            - MAUER_STUETZKONSTRUKTION
+            - SCHUTZBAUTEN
+            - STREUGUTSILO
+            - TUNNEL_GESCHLOSSENE_BAUWEISE
+            - WANNENBAUWERK
+            - WEGWEISERBRUECK
+
+        Status:
+          type: string
+          enum:
+            - PLANUNG
+            - BAU
+            - ERHALTEN
+        Baujahr:
+          type: integer
+        Standort:
+          type: string
+          enum:
+            - Burgenland
+            - Kärnten
+            - Steiermark
+            - Niederösterreich
+            - Oberösterreich
+            - Salzburg
+            - Tirol
+            - Vorarlberg
+            - Wien
+
+
