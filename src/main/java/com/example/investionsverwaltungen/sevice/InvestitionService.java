@@ -1,15 +1,17 @@
 package com.example.investionsverwaltungen.sevice;
 
-import com.example.investionsverwaltungen.entity.Investition;
+import com.example.investionsverwaltungen.model.Investition;
 import com.example.investionsverwaltungen.repository.InvestitionRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Setter
+@Getter
 public class InvestitionService {
 
     private final InvestitionRepository investitionRepository;
@@ -34,7 +36,7 @@ public class InvestitionService {
 
     public Investition updateInvestition(Long id, Investition investitionDetails) {
         Investition investition = getInvestitionById(id);
-        investition.setMaßnahmeID(investitionDetails.getMassnahmeID());
+        investition.setMassnahme(investitionDetails.getMassnahme());
         investition.setJahr(investitionDetails.getJahr());
         investition.setKosten(investitionDetails.getKosten());
         investition.setAnmerkung(investitionDetails.getAnmerkung());

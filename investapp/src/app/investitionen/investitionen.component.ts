@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import {InvestitionenDbService} from "../db/investitionDBService";
+import {InvestitionenDbService} from "../service/db/investitionDBService";
 import {InvestitionService} from "../service/investition.service";
-import {Investition} from "../investition";
+import {Investition} from "../model/investition";
 import { firstValueFrom } from 'rxjs';
 
 

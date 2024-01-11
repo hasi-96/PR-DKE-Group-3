@@ -6,7 +6,7 @@ import { InvestitionenComponent } from './investitionen/investitionen.component'
 import {FormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import {InvestitionenDbService} from "./db/investitionDBService";
+import {InvestitionenDbService} from "./service/db/investitionDBService";
 import {InvestitionService} from "./service/investition.service";
 
 

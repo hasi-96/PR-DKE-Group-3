@@ -1,8 +1,9 @@
 package com.example.investionsverwaltungen.controller;
 
-import com.example.investionsverwaltungen.entity.Investition;
+import com.example.investionsverwaltungen.model.Investition;
 import com.example.investionsverwaltungen.sevice.InvestitionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,30 +21,33 @@ public class InvestitionController {
     }
 
     @GetMapping
-    public List<Investition> getAllInvestitionen() {
-        return investitionService.getAllInvestitionen();
+    public ResponseEntity<List<Investition>> getAllInvestitionen()  {
+        List<Investition> invest = investitionService.getAllInvestitionen();
+        return ResponseEntity.ok(invest);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Investition> getInvestitionById(@PathVariable Long id) {
-        return ResponseEntity.ok(investitionService.getInvestitionById(id));
+        Investition investition = investitionService.getInvestitionById(id);
+        return ResponseEntity.ok(investition);
     }
-
     @PostMapping
-    public Investition createInvestition(@RequestBody Investition investition) {
-        return investitionService.createInvestition(investition);
+    public ResponseEntity<Investition> createInvestition(@RequestBody Investition investition) {
+        Investition createdInvestition = investitionService.createInvestition(investition);
+        return new ResponseEntity<>(createdInvestition, HttpStatus.CREATED);
     }
-
     @PutMapping("/{id}")
-    public Investition updateInvestition(@PathVariable Long id, @RequestBody Investition investitionDetails) {
-        return investitionService.updateInvestition(id, investitionDetails);
+    public ResponseEntity<Investition> updateInvestition(@PathVariable Long id, @RequestBody Investition investitionDetails) {
+        Investition updatedInvestition = investitionService.updateInvestition(id, investitionDetails);
+        return ResponseEntity.ok(updatedInvestition);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteInvestition(@PathVariable Long id) {
         investitionService.deleteInvestition(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
+
 }
 
 
