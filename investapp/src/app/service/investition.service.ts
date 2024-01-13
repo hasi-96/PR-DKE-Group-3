@@ -16,5 +16,8 @@ export class InvestitionService {
   createInvestition(investition: Investition): Observable<Investition> {
     return this.http.post<Investition>(this.apiUrl, investition);
   }
+  getInvestitionen(): Observable<Investition[]> {
+    return this.http.get<Investition[]>(this.apiUrl);
+  }
 }
 

@@ -16,14 +16,27 @@ public class Massnahme {
     @Id
     @GeneratedValue(strategy = AUTO)
     private Long massnahmenID;
+
     @Column
-    private Dringlichkeit dringlichkeit;
-    @Column
-    private  Status status;
-    @Column
-    private String bezeichnung;
+    private String anmerkung;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "investitionsID")
-    private Investition investition;
+    @JoinColumn(name = "investitionsID", referencedColumnName = "investitionsID")
+    Investition investition;
+
+    // ToDo: Diese Daten müssen von der REST API Objektverwaltung eingelesen werden
+    @Column
+    Long objektID;
+    @Column
+    String bauteil;
+    // ToDo: Diese Daten müssen von der REST API Inspektionsverwaltung eingelesen werden
+    @Column
+    Long inspektionsID;
+    @Column
+    String inspektionselement; // kommt bauteilbewertung von Inspektion
+    @Column
+    Status status;
+    @Column
+    Dringlichkeit dringlichkeit;
 
 }

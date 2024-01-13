@@ -8,17 +8,17 @@ import {Massnahme} from "../../model/massnahme";
 })
 export class InvestitionenDbService extends Dexie {
   public investitionen: Dexie.Table<Investition, number>;
-  public massnahmen: Dexie.Table<Massnahme, number>;
+  //public massnahmen: Dexie.Table<Massnahme, number>;
 
 
   constructor() {
     super('InvestitionenDB');
     this.version(1).stores({
       investitionen: '++investitionsID, massnahmeID, jahr, kosten, anmerkung',
-      massnahmen: '++massnahmenID, dringlichkeit, status, bezeichnung, investitionsID'
+     // massnahmen: '++massnahmenID, dringlichkeit, status, bezeichnung, investitionsID'
     });
     this.investitionen = this.table('investitionen');
-    this.massnahmen = this.table('massnahmen');
+    //this.massnahmen = this.table('massnahmen');
   }
 
   async addInvestition(investition: Investition): Promise<number> {
@@ -32,19 +32,21 @@ export class InvestitionenDbService extends Dexie {
   async deleteInvestition(investitionsID: number): Promise<void> {
     return this.investitionen.delete(investitionsID);
   }
-  async addMassnahme(massnahme: Massnahme): Promise<number> {
-    return this.massnahmen.add(massnahme);
-  }
-  async getMassnahme(): Promise<Massnahme[]>{
-    return  this.massnahmen.toArray();
-  }
-  async deleteMassnahme(massnahmeID: number): Promise<void>{
-    return this.massnahmen.delete(massnahmeID);
-  }
 
   async clearAllData() {
         const tables = this.tables;
         return Promise.all(tables.map(table => table.clear()));
     }
+  async updateInvestition(investitionsID: number, investition: Investition): Promise<number> {
+    return this.investitionen.update(investitionsID, investition);
+  }
+  async saveInvestitionen(investitionenArray: Investition[]): Promise<void> {
+    await this.transaction('rw', this.investitionen, async () => {
+      for (const investition of investitionenArray) {
+        await this.investitionen.put(investition);
+      }
+    });
+  }
 
-}
+
+  }

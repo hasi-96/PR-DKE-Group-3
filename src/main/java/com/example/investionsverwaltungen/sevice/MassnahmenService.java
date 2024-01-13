@@ -29,7 +29,7 @@ public class MassnahmenService {
     public Massnahme createMassnahme(Massnahme massnahme){return  massnahmenRepository.save(massnahme);}
     public Massnahme updateMassnahme(Long id, Massnahme massnahmeDetails) {
         Massnahme massnahme = getMassnahmeById(id);
-        massnahme.setBezeichnung(massnahmeDetails.getBezeichnung());
+        massnahme.setAnmerkung(massnahmeDetails.getAnmerkung());
         massnahme.setInvestition(massnahmeDetails.getInvestition());
         massnahme.setStatus(massnahmeDetails.getStatus());
         massnahme.setDringlichkeit(massnahmeDetails.getDringlichkeit());

@@ -18,7 +18,7 @@ public class Investition {
     Long investitionsID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "massnahmeID")
+    @JoinColumn(name = "massnahmenID", referencedColumnName = "massnahmenID")
     private Massnahme massnahme;
 
     @Column
@@ -27,5 +27,6 @@ public class Investition {
     Double kosten;
     @Column
     String anmerkung;
+
 
 }
