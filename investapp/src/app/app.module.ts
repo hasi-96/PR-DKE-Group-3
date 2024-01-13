@@ -1,19 +1,22 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import { InvestitionenComponent } from './component/investitionen.component';
+import { AppComponent } from './component/app/app.component';
+import { InvestitionenComponent } from './component/investition/investitionen.component';
 import {FormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {InvestitionenDbService} from "./service/db/investitionDBService";
 import {InvestitionService} from "./service/investition.service";
+import { MassnahmeComponent } from './component/massnahme/massnahme.component';
+import {MassnahmeService} from "./service/massnahme.service";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    InvestitionenComponent
+    InvestitionenComponent,
+    MassnahmeComponent
   ],
     imports: [
         BrowserModule,
@@ -26,7 +29,7 @@ import {InvestitionService} from "./service/investition.service";
         registrationStrategy: 'registerWhenStable:30000'
       })
     ],
-  providers: [InvestitionenDbService, InvestitionService],
+  providers: [InvestitionenDbService, InvestitionService,MassnahmeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
