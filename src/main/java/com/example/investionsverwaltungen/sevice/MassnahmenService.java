@@ -1,6 +1,6 @@
 package com.example.investionsverwaltungen.sevice;
 
-import com.example.investionsverwaltungen.model.Investition;
+
 import com.example.investionsverwaltungen.model.Massnahme;
 import com.example.investionsverwaltungen.repository.MassnahmenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
