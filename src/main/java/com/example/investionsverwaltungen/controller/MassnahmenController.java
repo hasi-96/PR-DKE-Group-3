@@ -1,6 +1,7 @@
 package com.example.investionsverwaltungen.controller;
 
 import com.example.investionsverwaltungen.model.Massnahme;
+import com.example.investionsverwaltungen.repository.MassnahmenRepository;
 import com.example.investionsverwaltungen.sevice.MassnahmenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,13 @@ public class MassnahmenController {
     private final MassnahmenService massnahmenService;
 
     @Autowired
+    private MassnahmenRepository massnahmeRepository;
+
+    @Autowired
     MassnahmenController(MassnahmenService service){
         this.massnahmenService = service;
     }
+
 
     @GetMapping
     public ResponseEntity<List<Massnahme>> getAllMassnahmen()  {

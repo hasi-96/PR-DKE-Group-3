@@ -1,46 +1,71 @@
 <div class="container">
-  <h2>Investition erstellen</h2>
-  <form #investitionForm="ngForm" (ngSubmit)="onSubmit(investitionForm)">
-    <div class="form-group">
-      <label for="massnahmeID">Maßnahme ID: </label>
-      <input type="number" class="form-control" id="massnahmeID" required [(ngModel)]="investition.massnahmeID" name="massnahmeID">
+  <div class="row">
+    <!-- Linke Spalte: Liste der Investitionen -->
+    <div class="col-md-6">
+      <h2>Investitionen</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Investitions ID</th>
+          <th>Maßnahmen ID</th>
+          <th>Jahr</th>
+          <th>Kosten</th>
+          <th>Anmerkung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let investition of investitionen" (click)="onSelectInvestition(investition)">
+          <td>{{ investition.investitionsID }}</td>
+          <td>{{ investition.massnahmeID }}</td>
+          <td>{{ investition.jahr }}</td>
+          <td>{{ investition.kosten }}</td>
+          <td>{{ investition.anmerkung }}</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="form-group">
-      <label for="jahr">Jahr: </label>
-      <input type="number" class="form-control" id="jahr" required [(ngModel)]="investition.jahr" name="jahr">
-    </div>
-    <div class="form-group">
-      <label for="kosten">Kosten: </label>
-      <input type="number" class="form-control" id="kosten" required [(ngModel)]="investition.kosten" name="kosten">
-    </div>
-    <div class="form-group">
-      <label for="anmerkung">Anmerkung: </label>
-      <input type="text" class="form-control" id="anmerkung" [(ngModel)]="investition.anmerkung" name="anmerkung">
-    </div>
-    <button type="submit" class="btn btn-primary">Speichern</button>
-  </form>
-</div>
 
-<div>
-  <h2>Investitionen</h2>
-  <table>
-    <thead>
-    <tr>
-      <th>investition </th>
-      <th>Massnahmen ID   </th>
-      <th>Jahr    </th>
-      <th>Kosten    </th>
-      <th>Anmerkung   </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let investition of investitionen">
-      <td>{{investition.investitionsID}}</td>
-      <td>{{ investition.massnahmeID }}</td>
-      <td>{{ investition.jahr }}</td>
-      <td>{{ investition.kosten }}</td>
-      <td>{{ investition.anmerkung }}</td>
-    </tr>
-    </tbody>
-  </table>
+    <!-- Rechte Spalte: Formular und Details einer ausgewählten Investition -->
+    <div class="col-md-6">
+      <!-- Button zum Anzeigen des Formulars für eine neue Investition -->
+      <button class="btn btn-primary" (click)="showForm = !showForm; editMode = false">
+        {{ showForm ? 'Abbrechen' : 'Neue Investition erstellen' }}
+      </button>
+
+      <!-- Formular für neue oder zu bearbeitende Investition -->
+      <div *ngIf="showForm">
+        <form #investitionForm="ngForm" (ngSubmit)="editMode ? onUpdateInvestition(investitionForm) : onSubmit(investitionForm)">
+          <div class="form-group">
+            <label for="massnahmeID">Maßnahme ID:</label>
+            <input type="number" class="form-control" id="massnahmeID" required [(ngModel)]="investition.massnahmeID" name="massnahmeID">
+          </div>
+          <div class="form-group">
+            <label for="jahr">Jahr:</label>
+            <input type="number" class="form-control" id="jahr" required [(ngModel)]="investition.jahr" name="jahr">
+          </div>
+          <div class="form-group">
+            <label for="kosten">Kosten:</label>
+            <input type="number" class="form-control" id="kosten" required [(ngModel)]="investition.kosten" name="kosten">
+          </div>
+          <div class="form-group">
+            <label for="anmerkung">Anmerkung:</label>
+            <input type="text" class="form-control" id="anmerkung" [(ngModel)]="investition.anmerkung" name="anmerkung">
+          </div>
+          <button type="submit" class="btn btn-success">{{ editMode ? 'Aktualisieren' : 'Speichern' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="showForm = false; editMode = false">Abbrechen</button>
+        </form>
+      </div>
+
+      <!-- Details und Bearbeitungsoptionen für eine ausgewählte Investition -->
+      <div *ngIf="selectedInvestition && !showForm">
+        <h3>Ausgewählte Investition</h3>
+        <p><strong>Maßnahme ID:</strong> {{ selectedInvestition.massnahmeID }}</p>
+        <p><strong>Jahr:</strong> {{ selectedInvestition.jahr }}</p>
+        <p><strong>Kosten:</strong> {{ selectedInvestition.kosten }}</p>
+        <p><strong>Anmerkung:</strong> {{ selectedInvestition.anmerkung }}</p>
+        <button class="btn btn-primary" (click)="onEditInvestition()">Bearbeiten</button>
+        <button class="btn btn-danger" (click)="onDeleteInvestition()">Löschen</button>
+      </div>
+    </div>
+  </div>
 </div>

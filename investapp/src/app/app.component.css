@@ -269,3 +269,6 @@ tbody tr:hover {
   border: 1px solid #ccc;
   margin-top: 15px;
 }
+.btn-primary{
+  background: #007bff;
+}

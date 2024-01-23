@@ -8,21 +8,21 @@ import {Massnahme} from "../../model/massnahme";
 })
 export class InvestitionenDbService extends Dexie {
   public investitionen: Dexie.Table<Investition, number>;
-  public massnahmen: Dexie.Table<Massnahme, number>;
+  //public massnahmen: Dexie.Table<Massnahme, number>;
 
 
   constructor() {
     super('InvestitionenDB');
     this.version(1).stores({
       investitionen: '++investitionsID, massnahmeID, jahr, kosten, anmerkung',
-      massnahmen: '++massnahmenID, dringlichkeit, status, bezeichnung, investitionsID'
+      // massnahmen: '++massnahmenID, dringlichkeit, status, bezeichnung, investitionsID'
     });
     this.investitionen = this.table('investitionen');
-    this.massnahmen = this.table('massnahmen');
+    //this.massnahmen = this.table('massnahmen');
   }
 
   async addInvestition(investition: Investition): Promise<number> {
-      return this.investitionen.add(investition);
+    return this.investitionen.add(investition);
   }
 
   async getInvestitionen(): Promise<Investition[]> {
@@ -34,9 +34,9 @@ export class InvestitionenDbService extends Dexie {
   }
 
   async clearAllData() {
-        const tables = this.tables;
-        return Promise.all(tables.map(table => table.clear()));
-    }
+    const tables = this.tables;
+    return Promise.all(tables.map(table => table.clear()));
+  }
   async updateInvestition(investitionsID: number, investition: Investition): Promise<number> {
     return this.investitionen.update(investitionsID, investition);
   }
@@ -49,4 +49,4 @@ export class InvestitionenDbService extends Dexie {
   }
 
 
-  }
+}

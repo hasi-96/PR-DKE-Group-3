@@ -21,22 +21,19 @@ public class Massnahme {
     private String anmerkung;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "investitionsID", referencedColumnName = "investitionsID")
+    @JoinColumn(name = "investitionsID")
     Investition investition;
 
-    // ToDo: Diese Daten müssen von der REST API Objektverwaltung eingelesen werden
-    @Column
-    Long objektID;
-    @Column
-    String bauteil;
-    // ToDo: Diese Daten müssen von der REST API Inspektionsverwaltung eingelesen werden
+
+    @GeneratedValue(strategy = AUTO)
     @Column
     Long inspektionsID;
-    @Column
-    String inspektionselement; // kommt bauteilbewertung von Inspektion
+
     @Column
     Status status;
     @Column
     Dringlichkeit dringlichkeit;
+
+
 
 }

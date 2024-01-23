@@ -7,5 +7,5 @@ export interface Massnahme{
   objektID: number;
   inspektionsID:number;
   bauteil: string;
-  inspektionselement: string;
+
 }

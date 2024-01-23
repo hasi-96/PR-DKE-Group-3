@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+
 import static jakarta.persistence.GenerationType.AUTO;
 
 @Setter
@@ -17,10 +19,10 @@ public class Investition {
     @GeneratedValue(strategy = AUTO)
     Long investitionsID;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "massnahmenID", referencedColumnName = "massnahmenID")
     private Massnahme massnahme;
-
     @Column
     Integer jahr;
     @Column

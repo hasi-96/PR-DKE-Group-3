@@ -9,7 +9,7 @@ import {Investition} from "../model/investition";
   providedIn: 'root'
 })
 export class InvestitionService {
-  private apiUrl = 'http://localhost:8080/api/investitionen';
+  private apiUrl = 'http://localhost:8081/api/investitionen';
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +19,12 @@ export class InvestitionService {
   getInvestitionen(): Observable<Investition[]> {
     return this.http.get<Investition[]>(this.apiUrl);
   }
-}
 
+  updateInvestition(investitionsID: number | undefined, investition: Investition): Observable<Investition> {
+    return this.http.put<Investition>(`${this.apiUrl}/${investitionsID}`, investition);
+  }
+
+  deleteInvestition(investitionsID: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${investitionsID}`);
+  }
+}
