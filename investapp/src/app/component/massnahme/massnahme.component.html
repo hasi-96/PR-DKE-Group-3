@@ -1,0 +1,103 @@
+<h2>Investitionsverwaltung</h2>
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <div class="button-group">
+        <button (click)="onButtonClickRefresh()">Refresh</button>
+      </div>
+      <div *ngIf="!massnahmeService.online" class="status_offline">OFFLINE</div>
+      <div *ngIf="massnahmeService.online" class="status_online">ONLINE</div>
+      <h3>Maßnahmen</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Dringlichkeit</th>
+          <th>Anmerkung</th>
+          <th>Status</th>
+          <th>ObjektID</th>
+          <th>InspektionID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let massnahme of massnahmeService.massnahmen$ | async" (click)="onButtonClickSelect(massnahme.id)">
+          <td>{{ massnahme.id }}</td>
+          <td>{{ massnahme.dringlichkeit }}</td>
+          <td>{{ massnahme.anmerkung }}</td>
+          <td>{{ massnahme.status }}</td>
+          <td>{{ massnahme.objektid }}</td>
+          <td>{{ massnahme.inspektionid }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+
+      <div class="button-group" *ngIf="editMassnahme === undefined">
+        <button (click)="onButtonClickNew()">Neue Massnahme erstellen</button>
+      </div>
+
+
+      <div *ngIf="editMassnahme !== undefined">
+        <div class="edit-section">
+          <div *ngIf="editMassnahme.id != -1" class="edit-header">Edit ID: {{ editMassnahme.id }}</div>
+
+          <div class="input-group">
+            <label>Dringlichkeit:</label>
+            <select [(ngModel)]="editMassnahme.dringlichkeit">
+              <option value="KURZFRISTIG">KURZFRISTIG</option>
+              <option value="MITTELFRISTIG">MITTELFRISTIG</option>
+              <option value="LANGFRISTIG">LANGFRISTIG</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Anmerkung:</label>
+            <input type="text" [(ngModel)]="editMassnahme.anmerkung">
+          </div>
+
+          <div class="input-group">
+            <label>Status:</label>
+            <select [(ngModel)]="editMassnahme.status">
+              <option value="DURCHGEFÜHRT">DURCHGEFÜHRT</option>
+              <option value="OFFEN">OFFEN</option>
+              <option value="NICHT_DURCHGEFÜHRT">NICHT_DURCHGEFÜHRT</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>InspektionID:</label>
+            <input type="number" [(ngModel)]="editMassnahme.inspektionid">
+          </div>
+
+          <div class="input-group">
+            <label>Bauobjekt ID:</label>
+            <select [(ngModel)]=editMassnahme.objektid (change)="onBauobjektIdChange()">
+              <option *ngFor="let id of bauobjektIds" [value]="id">{{ id }}</option>
+            </select>
+          </div>
+          <div>
+            <h3>Bauobjektkomponenten:</h3>
+            <ul>
+              <li *ngFor="let komponente of bauobjektkomponenten">{{ komponente }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button (click)="onButtonClickEdit()">Änderung speichern</button>
+
+          <button *ngIf="editMassnahme.id != -1" (click)="onButtonClickDel()">Maßnahme löschen</button>
+        </div>
+        <div class="button-group" *ngIf="editMassnahme !== undefined">
+          <button (click)="onButtonClickCancel()">Abbrechen</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</main>
+

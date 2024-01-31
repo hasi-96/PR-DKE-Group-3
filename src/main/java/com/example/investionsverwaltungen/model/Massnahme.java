@@ -1,3 +1,4 @@
+
 package com.example.investionsverwaltungen.model;
 
 import jakarta.persistence.*;
@@ -7,36 +8,33 @@ import lombok.Setter;
 
 import static jakarta.persistence.GenerationType.AUTO;
 
+/**
+ * Die {@code Massnahme} Klasse repräsentiert eine Maßnahme innerhalb des Systems.
+ * Sie wird verwendet, um Informationen über einzelne Maßnahmen zu speichern und zu verwalten, die im Rahmen der Investitionsverwaltung durchgeführt werden.
+ * Diese Klasse ist mit der Datenbank über JPA (Jakarta Persistence API) annotiert, was die Erstellung einer entsprechenden "Massnahmen" Tabelle in der Datenbank ermöglicht.
+ * Die Klasse nutzt Lombok-Bibliotheksannotationen {@code @Setter}, {@code @Getter} und {@code @NoArgsConstructor},
+ * um Boilerplate-Code wie Setter, Getter und einen parameterlosen Konstruktor automatisch zu generieren.
+ */
 @Setter
 @Getter
 @Entity
-@Table(name = "Massnahme")
+@Table(name = "Massnahmen")
 @NoArgsConstructor
 public class Massnahme {
     @Id
     @GeneratedValue(strategy = AUTO)
-    private Long massnahmenID;
-
+    public Long id;
     @Column
-    private String anmerkung;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "investitionsID", referencedColumnName = "investitionsID")
-    Investition investition;
-
-    // ToDo: Diese Daten müssen von der REST API Objektverwaltung eingelesen werden
+    public String dringlichkeit;
     @Column
-    Long objektID;
+    public String anmerkung;
     @Column
-    String bauteil;
-    // ToDo: Diese Daten müssen von der REST API Inspektionsverwaltung eingelesen werden
+    public String status;
     @Column
-    Long inspektionsID;
+    private String bauteil;
     @Column
-    String inspektionselement; // kommt bauteilbewertung von Inspektion
+    public Long objektid;
     @Column
-    Status status;
-    @Column
-    Dringlichkeit dringlichkeit;
+    public Long inspektionid;
 
 }

@@ -1,8 +1,8 @@
-export interface  Investition {
-  investitionsID?: number;
-  massnahmeID: number;
+export interface Investition {
+  id: number;
+  anmerkung: string;
   jahr: number;
   kosten: number;
-  anmerkung: string;
+  massnahmeid: number;
 }
 

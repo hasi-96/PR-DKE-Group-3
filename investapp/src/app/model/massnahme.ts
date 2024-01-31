@@ -1,11 +1,9 @@
-export interface Massnahme{
-  massnahmenID?: number;
+export interface Massnahme {
+  id: number;
   dringlichkeit: string;
-  status: string;
   anmerkung: string;
-  investitionsID: number;
-  objektID: number;
-  inspektionsID:number;
+  status: string;
   bauteil: string;
-  inspektionselement: string;
+  objektid: number;
+  inspektionid: number;
 }

@@ -1,0 +1,80 @@
+<main class="main">
+  <div class="content">
+    <div class="left-side">
+      <div class="button-group">
+        <button (click)="onButtonClickRefresh()">Refresh</button>
+      </div>
+      <h3>Investition</h3>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>MaßnahmenID</th>
+          <th>Jahr</th>
+          <th>Kosten</th>
+          <th>Anmerkung</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let investition of investitionService.investition$ | async"
+            (click)="onButtonClickSelect(investition.id)">
+          <td>{{ investition.id }}</td>
+          <td>{{ investition.massnahmeid }}</td>
+          <td>{{ investition.jahr }}</td>
+          <td>{{ investition.kosten }}</td>
+          <td>{{ investition.anmerkung }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="divider" role="separator" aria-label="Divider"></div>
+    <div class="right-side">
+
+      <div class="button-group" *ngIf="editInvestition === undefined">
+        <button (click)="onButtonClickNew()">Neue Investition erstellen</button>
+      </div>
+      <div *ngIf="editInvestition !== undefined">
+        <div class="edit-section">
+          <div *ngIf="editInvestition.id != -1" class="edit-header">Edit ID: {{ editInvestition.id }}</div>
+
+          <div class="input-group">
+            <label>MaßnahmeID:</label>
+            <select [(ngModel)]=editInvestition.massnahmeid>
+              <option *ngFor="let id of massnahmeIDs" [value]="id">{{ id }}</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Jahr:</label>
+            <input type="text" [(ngModel)]="editInvestition.jahr">
+          </div>
+
+          <div class="input-group">
+            <label>Kosten:</label>
+            <input type="text" [(ngModel)]="editInvestition.kosten">
+          </div>
+
+          <div class="input-group">
+            <label>Anmerkung:</label>
+            <input type="text" [(ngModel)]="editInvestition.anmerkung">
+          </div>
+
+        </div>
+
+        <div class="button-group">
+          <button (click)="onButtonClickEdit()">Änderung speichern</button>
+
+          <button *ngIf="editInvestition.id != -1" (click)="onButtonClickDel()">Investition löschen</button>
+        </div>
+        <div class="button-group" *ngIf="editInvestition !== undefined">
+          <button (click)="onButtonClickCancel()">Abbrechen</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</main>
+

@@ -1,3 +1,4 @@
+
 package com.example.investionsverwaltungen.sevice;
 
 import com.example.investionsverwaltungen.model.Investition;
@@ -9,6 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Der {@code InvestitionService} bietet Geschäftslogik und Dienste zur Verwaltung von {@link Investition}-Objekten.
+ * Dieser Service fungiert als Zwischenschicht zwischen dem Controller und dem Repository,
+ * um Geschäftsregeln und -operationen für Investitionen zu implementieren.
+ * Dieser Service verwendet {@link InvestitionRepository}, um Datenbankoperationen auf Investitionsdaten durchzuführen.
+ */
 @Service
 @Setter
 @Getter
@@ -36,7 +43,7 @@ public class InvestitionService {
 
     public Investition updateInvestition(Long id, Investition investitionDetails) {
         Investition investition = getInvestitionById(id);
-        investition.setMassnahme(investitionDetails.getMassnahme());
+        investition.setMassnahmeid(investitionDetails.getMassnahmeid());
         investition.setJahr(investitionDetails.getJahr());
         investition.setKosten(investitionDetails.getKosten());
         investition.setAnmerkung(investitionDetails.getAnmerkung());
@@ -47,4 +54,3 @@ public class InvestitionService {
         investitionRepository.deleteById(id);
     }
 }
-
